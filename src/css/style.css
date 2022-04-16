@@ -1,0 +1,93 @@
+body {
+    font-size: 20px;
+    color: rgb(50, 50, 50);
+    background-color: rgb(230, 230, 230);
+}
+
+.wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.search-box {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0px 5px 5px rgba(0,0,0, 0.2);
+    background-color: white;
+    border-radius: 10px;
+}
+
+.search-icon {
+    position: absolute;
+    top: 0.8rem;
+    right: 1rem;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.x-icon {
+    position: absolute;
+    top: 0.6rem;
+    right: 3rem;
+    font-size: 1.2rem;
+    padding: 0.7rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.search-icon:hover{
+    color: rgb(4, 212, 170);
+}
+
+.x-icon:hover{
+    color: rgb(227, 49, 9);
+}
+.search-box input {
+    width: 30rem;
+    border: none;
+    font-size: 1.5rem;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0px 1px 5px rgba(0,0,0, 0.10);
+}
+
+.search-box input:focus {
+    outline: none;
+}
+
+.hints-container {
+    max-height: 170px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+}
+
+.hints-container ul {
+    margin: 0;
+    padding: 0;
+}
+
+.city-list-row {
+    list-style: none;
+    width: 100%;
+    padding: 1rem;
+    border-bottom: 1px dotted rgb(209, 208, 208);
+    cursor: default;
+}
+
+.city-list-row:hover {
+    background-color: rgb(235, 235, 235);
+}
+
+.showcity-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
