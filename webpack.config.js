@@ -5,7 +5,7 @@ const { LoaderOptionsPlugin } = require('webpack');
 module.exports = {
     entry: {
         index: './src/js/index.js',
-        objects: './src/js/objects.js'
+        city: './src/js/city.js'
     },
     output: {
         path: path.resolve(__dirname, 'dist'),

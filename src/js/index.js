@@ -1,31 +1,19 @@
 import '../css/style.css';
 import axios from 'axios';
-import './objects.js'
-import { City } from './objects.js';
+import './city.js'
+import { City } from './city.js';
 const _get = require('lodash/get');
 
 // declare some var
 
-let citiesList = [];
-let cityUrlSearch = '';
-let searchedCity;
 const eraseSearchBtn = document.querySelector(".x-icon");
 const startSearchBtn = document.querySelector(".search-icon");
 const citiesContainer = document.querySelector("#citylist");
 const searchBar = document.querySelector("#citysearch");
 
-//async fnc for dowload the searched city by API
+//Download the list of all cities available in the Teleport API
 
-async function downloadSearchedCity () {
-    await axios.get(cityUrlSearch)
-      .then (response => {
-          searchedCity = _get(response, "data", "Download Error");
-          console.log(searchedCity);
-          })
-      .catch ((error) => alert(error))       
-  };
-
-//async fnc for dowload the cities list by API
+let citiesList = [];
 
 async function downloadCities () {
   await axios.get(`https://api.teleport.org/api/urban_areas/`)
@@ -33,10 +21,9 @@ async function downloadCities () {
         citiesList = _get(response, "data._links.ua:item", "Download Error")})
     .catch ((error) => alert(error))       
 };
-
 downloadCities();
 
-//show cities on the autocomplete box
+//Show cities in the autocomplete box
 
 function displaySearchCities (cities) {
         const displayOnHTML = cities.map( city => {
@@ -45,7 +32,7 @@ function displaySearchCities (cities) {
     citiesContainer.innerHTML = displayOnHTML;
     }
 
-//event listener on search bar inputs - generates autocomplete hints
+//Event listener on search bar inputs - generates autocomplete hints
 
 searchBar.addEventListener("keyup", e => {
     const value = e.target.value.toLowerCase();
@@ -65,9 +52,17 @@ searchBar.addEventListener("keyup", e => {
     }
 });
 
+// Clear the search bar when X is clicked
 eraseSearchBtn.addEventListener('click', (e)=> { return searchBar.value = ''});
+
+
+// Start search and show the city datas
 startSearchBtn.addEventListener('click', (e)=> {  
-    cityUrlSearch = citiesList[citiesList.findIndex( obj => 
+    let cityUrlSearch = citiesList[citiesList.findIndex( obj => 
         {return obj.name.toLowerCase() === searchBar.value.toLowerCase()})].href;
-        downloadSearchedCity ();
+        const cityToUser = new City (cityUrlSearch);    
+        cityToUser.getCityData().then( res => console.log(cityToUser));
         searchBar.value = ''});
+
+
+        
