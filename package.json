@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "axios": "^0.26.1",
-    "dotenv": "^16.0.0",
+    "chart.js": "^3.7.1",
     "lodash.get": "^4.4.2"
   }
 }

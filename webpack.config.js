@@ -5,7 +5,8 @@ const { LoaderOptionsPlugin } = require('webpack');
 module.exports = {
     entry: {
         index: './src/js/index.js',
-        city: './src/js/city.js'
+        city: './src/js/city.js',
+        showcity: './src/js/showcity.js',
     },
     output: {
         path: path.resolve(__dirname, 'dist'),

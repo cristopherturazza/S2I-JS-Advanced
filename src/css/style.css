@@ -1,24 +1,85 @@
+/* Reset Snippet */
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+    overflow-x: hidden;
+    height: 100vh;
+}
+
 body {
     font-size: 20px;
     color: rgb(50, 50, 50);
-    background-color: rgb(230, 230, 230);
+    background-color: rgba(230,230,230);
+    font-family: 'Akshar', sans-serif;
 }
 
 .wrapper {
-    width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
 }
 
+.banner-container {
+    display: flex;
+    position: relative;
+    width: 100vw;
+    height: 40vh;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    background-image: url('https://d13k13wj6adfdf.cloudfront.net/urban_areas/san-antonio_web-37402dd546.jpg');
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 0px 5px 10px rgba(0,0,0, 0.2);
+}
+
+.banner-container::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: rgba(0,0,0, 0.2);
+}
+
+.main-title {
+    display: flex;
+    z-index: 1;
+    text-align: center;
+    line-height: 8rem;
+    font-size: 8rem;
+    font-weight: bolder;
+    color: rgb(230, 230, 230);
+    text-shadow: 0px 0px 50px rgba(0,0,0, 0.5);
+}
+
+.search-wrapper {
+    width: 100%;
+    display: flex;
+    position: relative;
+    margin: 0 auto;
+    flex-direction: row;
+    justify-content: center;
+}
+
 .search-box {
     display: flex;
-    width: 100%;
+    width: 25rem;
     justify-content: center;
     flex-direction: column;
-    position: relative;
+    position: absolute;
+    top: -4vh;
     box-shadow: 0px 5px 5px rgba(0,0,0, 0.2);
-    background-color: white;
+    background-color: rgba(230,230,230);
     border-radius: 10px;
 }
 
@@ -30,6 +91,7 @@ body {
     padding: 0.5rem;
     border-radius: 50%;
     cursor: pointer;
+    transition: color ease-in 0.3s;
 }
 
 .x-icon {
@@ -40,22 +102,23 @@ body {
     padding: 0.7rem;
     border-radius: 50%;
     cursor: pointer;
+    transition: color ease-in 0.3s;
 }
 
 .search-icon:hover{
-    color: rgb(4, 212, 170);
+    color: rgb(34, 187, 139);
 }
 
 .x-icon:hover{
     color: rgb(227, 49, 9);
 }
 .search-box input {
-    width: 30rem;
     border: none;
     font-size: 1.5rem;
     padding: 1rem;
     border-radius: 10px;
     box-shadow: 0px 1px 5px rgba(0,0,0, 0.10);
+    background-color: rgb(230, 230, 230);
 }
 
 .search-box input:focus {
@@ -63,10 +126,11 @@ body {
 }
 
 .hints-container {
-    max-height: 170px;
+    max-height: 205px;
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: thin;
+
 }
 
 .hints-container ul {
@@ -76,18 +140,90 @@ body {
 
 .city-list-row {
     list-style: none;
-    width: 100%;
     padding: 1rem;
+    margin: 0.5rem;
+    border-radius: 10px;
     border-bottom: 1px dotted rgb(209, 208, 208);
     cursor: default;
+    transition: background-color ease-in 0.1s;
 }
 
 .city-list-row:hover {
-    background-color: rgb(235, 235, 235);
+    background-color: rgb(34, 187, 139);
+}
+
+.citydata-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
 }
 
 .showcity-container {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
+    background-color: rgb(230, 230, 230);
+    width: 50vw;
+    padding: 3rem;
+}
+
+.city-name h1 {
+    font-size: 3rem;
+    font-weight: bolder;
+    margin: 0;
+    text-decoration: underline;
+    text-decoration-color: rgb(34, 187, 139);
+    text-decoration-thickness: 5px ;
+    cursor: default;
+
+}
+.city-name h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 1rem 0;
+    cursor: default;
+}
+
+.city-summary {
+    font-weight: 100;
+    max-width: 45vw;
+}
+
+.city-mayor {
+    margin-top: 1rem;
+    font-weight: 100;
+}
+
+.city-total-score {
+    margin-top: 3rem;
+    text-align: end;
+    cursor: default;
+}
+.city-total-score em{
+    background-color: rgb(50, 50, 50);
+    font-style: normal;
+    color: rgb(230,230,230);
+    padding: 0.7rem;
+    border-radius: 20px;
+    transition: all ease-in 0.5s;
+    box-shadow: 0px 5px 5px rgba(0,0,0, 0.2);
+}
+
+.city-total-score em:hover{
+    background-color: rgb(34, 187, 139);
+    color: rgb(50,50,50);
+}
+
+
+.city-scores-chart {
+    background-color: crimson;
+    width: 50vw;
+    min-height: 50vh;
+}
+
+footer {
+    min-height: 8vh;
+    width: 100vw;
+    background-color: rgb(34, 187, 139);
 }

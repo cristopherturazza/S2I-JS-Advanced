@@ -13,7 +13,8 @@ export class City {
         const downloadMain = await axios.get(this.cityMainUrl)
         this.cityName = _get (downloadMain, 'data.name', 'Error, try to reload the page');
         this.cityFullName = _get (downloadMain, 'data.full_name','Error, try to reload the page');
-        this.cityMayor = _get (downloadMain, 'data.mayor','Error, try to reload the page');
+        this.cityNation = this.cityFullName.replace(`${this.cityName}, `, '');
+        this.cityMayor = _get (downloadMain, 'data.mayor','not avalaible');
         this.cityContinent = _get (downloadMain, 'data.continent', 'Error, try to reload the page') 
         const cityImgUrl = _get (downloadMain, 'data._links.ua:images.href', 'Error, try to reload the page'); 
         const cityScoresUrl = _get (downloadMain, 'data._links.ua:scores.href', 'Error, try to reload the page');
@@ -23,6 +24,7 @@ export class City {
         this.citySummary = _get (downloadScores, 'data.summary', 'Error, try to reload the page');
         this.cityTotalScore = _get (downloadScores, 'data.teleport_city_score', 'Error, try to reload the page');
         this.cityCatScores = _get (downloadScores, 'data.categories', 'Error, try to reload the page');
+        console.log(this.cityCatScores)
         }
         catch {(error) => console.log(error)}  
     }
