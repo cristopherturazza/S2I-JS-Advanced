@@ -38,6 +38,7 @@ function displaySearchCities (cities) {
 const searchBar = document.querySelector("#citysearch");
 
 searchBar.addEventListener("keyup", e => {
+    searchBar.setCustomValidity('');
     const value = e.target.value.toLowerCase();
     const filteredCities = citiesList.filter ( city => {
             return (city.name.toLowerCase().startsWith(value))})
@@ -58,13 +59,16 @@ searchBar.addEventListener("keyup", e => {
 
 const eraseSearchBtn = document.querySelector(".x-icon");
 
-eraseSearchBtn.addEventListener('click', (e)=> { return searchBar.value = ''});
+eraseSearchBtn.addEventListener('click', (e)=> { 
+    displaySearchCities ([]);
+    searchBar.value = ''});
 
 // Start search and show the city datas
 
 const startSearchBtn = document.querySelector(".search-icon");
 
-startSearchBtn.addEventListener('click', (e)=> {  
+startSearchBtn.addEventListener('click', (e)=> {
+        try {  
     let cityUrlSearch = citiesList[citiesList.findIndex( obj => 
         {return obj.name.toLowerCase() === searchBar.value.toLowerCase()})].href;
         const cityToUser = new City (cityUrlSearch);    
@@ -75,7 +79,36 @@ startSearchBtn.addEventListener('click', (e)=> {
             mainCity.setCitySummary(cityToUser.citySummary);
             mainCity.setCityMayor(cityToUser.cityMayor);
             mainCity.setCityTotalScore(cityToUser.cityTotalScore.toFixed());
-
+            mainCity.setCityChart(cityToUser.cityName, cityToUser.cityCatScores)
         });
-        searchBar.value = ''});
+        searchBar.value = '';
+        displaySearchCities ([]);}
+        catch {searchBar.setCustomValidity('Please insert a valid city name');
+        searchBar.reportValidity()}
+        });
+
+// Start search and show the city datas
+
+searchBar.addEventListener('keypress', (e)=> {  
+        if (e.key === 'Enter') {
+            try {
+    let cityUrlSearch = citiesList[citiesList.findIndex( obj => 
+        {return obj.name.toLowerCase() === searchBar.value.toLowerCase()})].href;
+        const cityToUser = new City (cityUrlSearch);    
+        cityToUser.getCityData().then( () => {
+            mainCity.setMainTitle(cityToUser.cityName.toUpperCase());
+            mainCity.setCityBanner(cityToUser.cityImg);
+            mainCity.setCityName(cityToUser.cityName, cityToUser.cityNation, cityToUser.cityContinent);
+            mainCity.setCitySummary(cityToUser.citySummary);
+            mainCity.setCityMayor(cityToUser.cityMayor);
+            mainCity.setCityTotalScore(cityToUser.cityTotalScore.toFixed());
+            mainCity.setCityChart(cityToUser.cityName, cityToUser.cityCatScores)
+        });
+        searchBar.value = '';
+        displaySearchCities ([]);}
+        catch {searchBar.setCustomValidity('Please insert a valid city name');
+        searchBar.reportValidity()}
+}});
+
+
       

@@ -10,7 +10,6 @@
 
 html {
     overflow-x: hidden;
-    height: 100vh;
 }
 
 body {
@@ -39,6 +38,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     box-shadow: 0px 5px 10px rgba(0,0,0, 0.2);
+    z-index: 1;
 }
 
 .banner-container::before {
@@ -69,6 +69,7 @@ body {
     margin: 0 auto;
     flex-direction: row;
     justify-content: center;
+    z-index: 3;
 }
 
 .search-box {
@@ -122,7 +123,8 @@ body {
 }
 
 .search-box input:focus {
-    outline: none;
+    outline-style: double; 
+    outline-color: rgb(34, 187, 139);
 }
 
 .hints-container {
@@ -130,7 +132,6 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: thin;
-
 }
 
 .hints-container ul {
@@ -156,74 +157,156 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    z-index: 0;
 }
 
 .showcity-container {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    justify-content: space-between;
     background-color: rgb(230, 230, 230);
     width: 50vw;
-    padding: 3rem;
+    padding: 3rem 3rem;
+    min-height: 50vh;
+    position: relative;
 }
 
 .city-name h1 {
+    position: relative;
     font-size: 3rem;
     font-weight: bolder;
-    margin: 0;
+    margin-bottom: 1rem;
     text-decoration: underline;
     text-decoration-color: rgb(34, 187, 139);
     text-decoration-thickness: 5px ;
-    cursor: default;
-
 }
+
 .city-name h3 {
     font-size: 1.5rem;
     font-weight: 500;
-    margin: 1rem 0;
-    cursor: default;
+    margin-bottom: 1rem;
+   
 }
 
 .city-summary {
     font-weight: 100;
-    max-width: 45vw;
+    max-width: 35vw;
 }
+
+.city-summary a {
+    text-decoration-color: rgb(34, 187, 139);
+    text-decoration-thickness: 3px;
+    color:rgb(50, 50, 50);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.city-summary a:hover{
+    color: rgb(34, 187, 139);
+}
+
+#skyline-picture {
+    position: absolute;
+    bottom: -2vh;
+    width: 40vw;
+    z-index: 0;
+}
+
 
 .city-mayor {
     margin-top: 1rem;
     font-weight: 100;
 }
 
-.city-total-score {
-    margin-top: 3rem;
-    text-align: end;
-    cursor: default;
-}
-.city-total-score em{
-    background-color: rgb(50, 50, 50);
-    font-style: normal;
-    color: rgb(230,230,230);
-    padding: 0.7rem;
-    border-radius: 20px;
-    transition: all ease-in 0.5s;
-    box-shadow: 0px 5px 5px rgba(0,0,0, 0.2);
+.mayor-score-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-.city-total-score em:hover{
+.total-score-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.city-total-score {
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    width: 4rem;
+    text-shadow: 1px 1px 5px rgba(0,0,0, 0.3);
+    cursor: default;
     background-color: rgb(34, 187, 139);
+    background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+                radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
+    border-radius: 50%;
+    color: rgb(230,230,230);
+    box-shadow: 0px 5px 5px rgba(0,0,0, 0.2);
+    margin-bottom: 0.5rem;
+}
+
+.score-label {
     color: rgb(50,50,50);
+    font-size: 0.8rem;
+    text-align: center;
 }
 
 
 .city-scores-chart {
-    background-color: crimson;
+    display: flex;
+    flex-direction: column;
     width: 50vw;
     min-height: 50vh;
+    padding-top: 3rem;
+    padding-right: 3rem;
+    padding-bottom: 3rem;
+    font-weight: 100;
+    position: relative;
 }
 
+.chart-title {
+    font-size: 2rem;
+    font-weight: bolder;
+    margin-bottom: 1rem;
+    text-align: end;
+    text-decoration: underline;
+    text-decoration-color: rgb(34, 187, 139);
+    text-decoration-thickness: 5px ;
+}
+
+.cat-logos {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 45vw;
+    font-size: 3.5rem;
+    padding-top: 2rem;
+    padding-bottom: 0.5rem;
+    color: black;
+    position: absolute;
+    bottom: 0;
+}
+
+.prechart-title {
+    font-size: 3rem;
+    font-weight: bolder;
+    margin-bottom: 1rem;
+    text-decoration: underline;
+    text-decoration-color: rgb(34, 187, 139);
+    text-decoration-thickness: 5px ;
+}
+
+
+
 footer {
-    min-height: 8vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 100;
+    min-height: 10vh;
     width: 100vw;
     background-color: rgb(34, 187, 139);
+    z-index: 2;
 }
