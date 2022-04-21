@@ -49,23 +49,23 @@ export class ShowCity {
         this.cityTotalScore.innerHTML = `<span class="city-total-score">${score}</span><span class="score-label">BCTL Score</span>`
     }
 
-    setCityChart (cityname, scores){
-        const chartHtml = `<h1 class="chart-title">Rating for categories</h1>
-                                <canvas id="cityChart"></canvas>`;
+    setCityChart (cityname1, scores1, cityname2, scores2){
+        const chartHtml = `<div class="chart-head"><h1 class="chart-title">Rating for categories</h1><span id="compare-label">Compare with:</span>
+        <div class="compare-box"></div></div><canvas id="cityChart"></canvas>`;
         this.cityChartFrame.innerHTML = chartHtml;
         const ctx = document.querySelector("#cityChart");
-        const catNames = scores.map( x => x.name);
-        const catHexColors = scores.map( x => x.color);
+        const catNames = scores1.map( x => x.name);
+        const catHexColors = scores1.map( x => x.color);
         const catRgbaColors = catHexColors.map( c => hexToRGB(c, 0.5));
         const catBorderColors = catHexColors.map( c => hexToRGB(c, 1));
-        const catScores = scores.map( x => x.score_out_of_10.toFixed());
+        const catScores = scores1.map( x => x.score_out_of_10.toFixed());
 
         const mainChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: catNames,
                 datasets: [{
-                    label: `Scores for ${cityname}`,
+                    label: `Scores for ${cityname1}`,
                     data: catScores,
                     backgroundColor: catRgbaColors,
                     borderColor: catBorderColors,
@@ -82,5 +82,15 @@ export class ShowCity {
                 }
             }
         });
+
+        // add search bar for compare option
+
+        const searchCompareBox = document.querySelector(".compare-box");
+        const compareHTML= `<input type="search" id="comparesearch" placeholder="Another city...">
+        <div class="xc-icon"><i class="fas fa-xmark"></i></div>
+        <div class="compare-icon"><i class="fas fa-search"></i></div>
+        <div class="comp-city-container">
+            <ul id="comparelist"></ul>`;
+        searchCompareBox.innerHTML = compareHTML;
     }
 }

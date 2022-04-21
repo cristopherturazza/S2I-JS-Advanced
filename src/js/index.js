@@ -6,12 +6,25 @@ import './showcity.js'
 import { ShowCity } from './showcity.js';
 const _get = require('lodash/get');
 
-const mainCity = new ShowCity();
+// Global vars
 
+const mainCity = new ShowCity(); // main city on the page
+let citiesList = []; // list of all avalaible cities
 
-//Download the list of all cities available in the Teleport API
+// Selectors
 
-let citiesList = [];
+const citiesContainer = document.querySelector("#citylist"); // hints container
+const compareCitiesContainer = document.querySelector("#comparelist"); //hints container for comparing
+const searchBar = document.querySelector("#citysearch"); // main searchBar
+const compareSearchBar = document.querySelector("#comparesearch"); // comparing searchbar
+const startSearchBtn = document.querySelector(".search-icon"); // search button - main searchBar
+const eraseSearchBtn = document.querySelector(".x-icon"); // erase button - main searchBar
+const startCompareBtn = document.querySelector(".compare-icon"); // search button - compare searchBar
+const eraseCompareBtn = document.querySelector(".xc-icon"); // erase button - compare searchBar
+//let mainSearchBarCurrentLI = 0; //Hints selection counter
+//let compareSearchBarCurrentLI = 0; //Compare hints selection counter
+
+//Download the list of all cities available in the Teleport API - autoexecuted
 
 (async function downloadCities () {
     await axios.get(`https://api.teleport.org/api/urban_areas/`)
@@ -19,96 +32,192 @@ let citiesList = [];
           citiesList = _get(response, "data._links.ua:item", "Download Error")})
       .catch ((error) => alert(error))       
   })();
+
   
-//Show cities in the autocomplete box
 
-  const citiesContainer = document.querySelector("#citylist");
 
-function displaySearchCities (cities) {
+//Show hints in a autocomplete box
+
+function displaySearchCities (cities, container) {
           const displayOnHTML = cities.map( city => {
-              return `<li class="city-list-row">${city.name}</li>`
+              return `<li class="city-list-row" tabindex="0">${city.name}</li>`
           }).join('');
-      citiesContainer.innerHTML = displayOnHTML;
+      container.innerHTML = displayOnHTML;
       }
 
-// SEARCH BAR EVENTS //
+// filter the data list while the user are typing
 
-//Event listener on search bar inputs - generates autocomplete hints
-
-const searchBar = document.querySelector("#citysearch");
-
-searchBar.addEventListener("keyup", e => {
-    searchBar.setCustomValidity('');
+function filterDataOnInputs (e, input, data, container) {
+    input.setCustomValidity('');
     const value = e.target.value.toLowerCase();
-    const filteredCities = citiesList.filter ( city => {
-            return (city.name.toLowerCase().startsWith(value))})
-    if (citiesList.length === filteredCities.length){
-        filteredCities.length = 0;}
-    displaySearchCities (filteredCities);
-    let allHints = citiesContainer.querySelectorAll('li');
+    const filteredData = data.filter ( d => {
+            return (d.name.toLowerCase().startsWith(value))})
+    if (data.length === filteredData.length){
+        filteredData.length = 0;}
+    else if (filteredData.length === 1 && filteredData[0].name.toLowerCase() === value){   
+        filteredData.length = 0;}
+    displaySearchCities (filteredData, container);
+    let allHints = container.querySelectorAll('li');
     for (let i = 0; i<allHints.length; i++){
         allHints[i].addEventListener('click', e => {
-            searchBar.value = e.target.textContent;
-            filteredCities.length = 0;
-            displaySearchCities (filteredCities);
-        }) 
+            input.value = e.target.textContent;
+            filteredData.length = 0;
+            displaySearchCities (filteredData, container);
+        })
+        allHints[i].addEventListener('mouseover', e =>{
+            container.children[i].classList.add("highlight")
+        });
+        allHints[i].addEventListener('mouseleave', e =>{
+            container.children[i].classList.remove("highlight")
+        })  
     }
+}
+
+// clear the content typed in a search bar, refreshing hints
+
+function eraseInput (e, input, container){
+    displaySearchCities ([], container);
+    input.value = ''}
+
+
+
+function searchAndShowMainCity (data, input, container){
+    try {  
+        let cityUrlSearch = data[data.findIndex( obj => 
+            {return obj.name.toLowerCase() === input.value.toLowerCase()})].href;
+            const cityToUser = new City (cityUrlSearch);    
+            cityToUser.getCityData().then( () => {
+                mainCity.setMainTitle(cityToUser.cityName.toUpperCase());
+                mainCity.setCityBanner(cityToUser.cityImg);
+                mainCity.setCityName(cityToUser.cityName, cityToUser.cityNation, cityToUser.cityContinent);
+                mainCity.setCitySummary(cityToUser.citySummary);
+                mainCity.setCityMayor(cityToUser.cityMayor);
+                mainCity.setCityTotalScore(cityToUser.cityTotalScore.toFixed());
+                mainCity.setCityChart(cityToUser.cityName, cityToUser.cityCatScores)
+            });
+            input.value = '';
+            displaySearchCities ([], container);
+        }
+
+    catch {
+        input.setCustomValidity('Please insert a valid city name');
+        input.reportValidity()
+    }
+}
+
+function keyboardListHandler (e, lastcount, inputOrigin , container){
+    e.preventDefault();
+    let counter = lastcount;
+    
+  // Check for up/down key presses
+    
+    console.log(e);
+  switch(e.key){
+
+    // Up arrow  
+
+    case "Up":
+    case "ArrowUp":            
+        if (counter > 0 && counter < container.children.length-2 ){ 
+            container.children[counter].classList.remove("highlight");
+            counter--;
+            container.children[counter].classList.add("highlight");
+            container.parentElement.scrollTop -= 66; 
+        }
+        else if (counter > 0 && counter >= container.children.length-2){ 
+            container.children[counter].classList.remove("highlight");
+            counter--;
+            container.children[counter].classList.add("highlight"); 
+        }
+        else {
+            container.children[counter].classList.remove("highlight");
+            inputOrigin.focus();
+            break;
+        }            
+         
+      break;
+
+// Down arrow
+
+    case "Down":
+    case "ArrowDown":
+        if (counter >= 0 && counter < 2 && counter < container.children.length-1){
+        container.children[counter].classList.remove("highlight");
+        counter++;
+        container.children[counter].classList.add("highlight");
+        } 
+        else if (counter >= 2 && counter < container.children.length-1) {
+        container.children[counter].classList.remove("highlight");
+        counter++;
+        container.parentElement.scrollTop += 66;
+        container.children[counter].classList.add("highlight");
+        };
+      break;
+       
+    case "Enter":
+        inputOrigin.value = container.children[counter].textContent;
+        displaySearchCities ([], container);
+        inputOrigin.focus();
+        break;
+  }
+  return counter;
+
+}
+
+
+// MAIN SEARCH BAR EVENTS //
+
+// Event listener on search bar inputs - generates autocomplete hints and mouse events
+
+searchBar.addEventListener("keyup", (e) => {
+    filterDataOnInputs(e, searchBar, citiesList, citiesContainer);
 });
 
 // Clear the search bar when X is clicked
 
-const eraseSearchBtn = document.querySelector(".x-icon");
-
 eraseSearchBtn.addEventListener('click', (e)=> { 
-    displaySearchCities ([]);
-    searchBar.value = ''});
+    eraseInput(e, searchBar, citiesContainer)
+});
 
-// Start search and show the city datas
+// Start search and show the city datas with click on the search ICON
 
-const startSearchBtn = document.querySelector(".search-icon");
-
-startSearchBtn.addEventListener('click', (e)=> {
-        try {  
-    let cityUrlSearch = citiesList[citiesList.findIndex( obj => 
-        {return obj.name.toLowerCase() === searchBar.value.toLowerCase()})].href;
-        const cityToUser = new City (cityUrlSearch);    
-        cityToUser.getCityData().then( () => {
-            mainCity.setMainTitle(cityToUser.cityName.toUpperCase());
-            mainCity.setCityBanner(cityToUser.cityImg);
-            mainCity.setCityName(cityToUser.cityName, cityToUser.cityNation, cityToUser.cityContinent);
-            mainCity.setCitySummary(cityToUser.citySummary);
-            mainCity.setCityMayor(cityToUser.cityMayor);
-            mainCity.setCityTotalScore(cityToUser.cityTotalScore.toFixed());
-            mainCity.setCityChart(cityToUser.cityName, cityToUser.cityCatScores)
-        });
-        searchBar.value = '';
-        displaySearchCities ([]);}
-        catch {searchBar.setCustomValidity('Please insert a valid city name');
-        searchBar.reportValidity()}
+startSearchBtn.addEventListener('click', ()=> {
+    searchAndShowMainCity (citiesList, searchBar, citiesContainer)
         });
 
-// Start search and show the city datas
+// Start search and show the city datas with ENTER key
 
-searchBar.addEventListener('keypress', (e)=> {  
+searchBar.addEventListener('keydown', (e)=> {  
         if (e.key === 'Enter') {
-            try {
-    let cityUrlSearch = citiesList[citiesList.findIndex( obj => 
-        {return obj.name.toLowerCase() === searchBar.value.toLowerCase()})].href;
-        const cityToUser = new City (cityUrlSearch);    
-        cityToUser.getCityData().then( () => {
-            mainCity.setMainTitle(cityToUser.cityName.toUpperCase());
-            mainCity.setCityBanner(cityToUser.cityImg);
-            mainCity.setCityName(cityToUser.cityName, cityToUser.cityNation, cityToUser.cityContinent);
-            mainCity.setCitySummary(cityToUser.citySummary);
-            mainCity.setCityMayor(cityToUser.cityMayor);
-            mainCity.setCityTotalScore(cityToUser.cityTotalScore.toFixed());
-            mainCity.setCityChart(cityToUser.cityName, cityToUser.cityCatScores)
-        });
-        searchBar.value = '';
-        displaySearchCities ([]);}
-        catch {searchBar.setCustomValidity('Please insert a valid city name');
-        searchBar.reportValidity()}
-}});
+            searchAndShowMainCity (citiesList, searchBar, citiesContainer)
+            }
 
+        //if key down, focus on his hints container
+            
+        else if (e.key === 'Down' || e.key === 'ArrowDown'){
+            try{
+                e.preventDefault();
+                citiesContainer.children[0].classList.add("highlight");
+                citiesContainer.children[0].focus();
+            }
+            catch {return false}
+        }
+});
 
+// Navigate the main hints with keys
+
+let mainCounter = 0;
+
+citiesContainer.addEventListener("keydown", (e) => {
+    mainCounter = keyboardListHandler(e, mainCounter, searchBar, citiesContainer)
+    console.log(mainCounter);
+});
+
+// COMPARE SEARCH BAR EVENTS //
+
+/*
+
+compareSearchBar.addEventListener("keyup", e => {});
+
+*/
       

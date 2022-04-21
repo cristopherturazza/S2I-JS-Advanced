@@ -9,6 +9,7 @@
 }
 
 html {
+    scroll-behavior: smooth;
     overflow-x: hidden;
 }
 
@@ -149,7 +150,11 @@ body {
     transition: background-color ease-in 0.1s;
 }
 
-.city-list-row:hover {
+.city-list-row:focus {
+    outline: none;
+}
+
+.highlight {
     background-color: rgb(34, 187, 139);
 }
 
@@ -158,6 +163,7 @@ body {
     flex-direction: row;
     justify-content: flex-start;
     z-index: 0;
+    margin-top: 1rem;
 }
 
 .showcity-container {
@@ -228,6 +234,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-right: 2rem;
 }
 
 .city-total-score {
@@ -266,11 +273,25 @@ body {
     position: relative;
 }
 
+#now {
+    text-decoration: underline;
+    text-decoration-color: rgb(34, 187, 139);
+    text-decoration-thickness: 3px;
+    color:rgb(50, 50, 50);
+    font-weight: bold;
+}
+
+#compare-label {
+    position: absolute;
+    right: 13rem;
+    top: 1.6rem;
+}
+
+
 .chart-title {
     font-size: 2rem;
     font-weight: bolder;
     margin-bottom: 1rem;
-    text-align: end;
     text-decoration: underline;
     text-decoration-color: rgb(34, 187, 139);
     text-decoration-thickness: 5px ;
@@ -298,14 +319,105 @@ body {
     text-decoration-thickness: 5px ;
 }
 
+.chart-head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 
+.chart-head span {
+    display: flex;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    justify-content: end;
+}
+
+.compare-box {
+    display: flex;
+    width: 15rem;
+    position: absolute;
+    right: 3.5rem;
+    top: 3.2rem;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0px 5px 5px rgba(0,0,0, 0.2);
+    background-color: rgba(230,230,230);
+    border-radius: 10px;
+}
+
+.compare-icon {
+    position: absolute;
+    right: 0.5rem;
+    font-size: 0.8rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color ease-in 0.3s;
+}
+
+.xc-icon {
+    position: absolute;
+    right: 1.7rem;
+    font-size: 0.8rem;
+    padding: 0.7rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color ease-in 0.3s;
+}
+
+.compare-icon:hover{
+    color: rgb(34, 187, 139);
+}
+
+.xc-icon:hover{
+    color: rgb(227, 49, 9);
+}
+.compare-box input {
+    border: none;
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-radius: 10px;
+    box-shadow: 0px 1px 5px rgba(0,0,0, 0.10);
+    background-color: rgb(230, 230, 230);
+}
+
+.compare-box input:focus {
+    outline-style: double; 
+    outline-color: rgb(34, 187, 139);
+}
+
+.comp-city-container {
+    max-height: 205px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+}
+
+.comp-city-container ul {
+    margin: 0;
+    padding: 0;
+}
+
+.compare-list-row {
+    list-style: none;
+    padding: 1rem;
+    margin: 0.5rem;
+    border-radius: 10px;
+    border-bottom: 1px dotted rgb(209, 208, 208);
+    cursor: default;
+    transition: background-color ease-in 0.1s;
+}
+
+.compare-list-row {
+    outline: none;
+}
 
 footer {
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: 100;
-    min-height: 10vh;
+    min-height: 8vh;
     width: 100vw;
     background-color: rgb(34, 187, 139);
     z-index: 2;
