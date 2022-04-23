@@ -14,15 +14,10 @@ let citiesList = []; // list of all avalaible cities
 // Selectors
 
 const citiesContainer = document.querySelector("#citylist"); // hints container
-const compareCitiesContainer = document.querySelector("#comparelist"); //hints container for comparing
 const searchBar = document.querySelector("#citysearch"); // main searchBar
-const compareSearchBar = document.querySelector("#comparesearch"); // comparing searchbar
 const startSearchBtn = document.querySelector(".search-icon"); // search button - main searchBar
 const eraseSearchBtn = document.querySelector(".x-icon"); // erase button - main searchBar
-const startCompareBtn = document.querySelector(".compare-icon"); // search button - compare searchBar
-const eraseCompareBtn = document.querySelector(".xc-icon"); // erase button - compare searchBar
-//let mainSearchBarCurrentLI = 0; //Hints selection counter
-//let compareSearchBarCurrentLI = 0; //Compare hints selection counter
+const compareBox = document.querySelector(".city-scores-chart"); // chart contaniner
 
 //Download the list of all cities available in the Teleport API - autoexecuted
 
@@ -33,14 +28,11 @@ const eraseCompareBtn = document.querySelector(".xc-icon"); // erase button - co
       .catch ((error) => alert(error))       
   })();
 
-  
-
-
 //Show hints in a autocomplete box
 
 function displaySearchCities (cities, container) {
           const displayOnHTML = cities.map( city => {
-              return `<li class="city-list-row" tabindex="0">${city.name}</li>`
+              return `<li tabindex="0">${city.name}</li>`
           }).join('');
       container.innerHTML = displayOnHTML;
       }
@@ -93,10 +85,10 @@ function searchAndShowMainCity (data, input, container){
                 mainCity.setCitySummary(cityToUser.citySummary);
                 mainCity.setCityMayor(cityToUser.cityMayor);
                 mainCity.setCityTotalScore(cityToUser.cityTotalScore.toFixed());
-                mainCity.setCityChart(cityToUser.cityName, cityToUser.cityCatScores)
+                mainCity.setCityChart(cityToUser.cityName, cityToUser.cityCatScores);
             });
-            input.value = '';
-            displaySearchCities ([], container);
+            input.value = ''; //reset input in the searchBar
+            displaySearchCities ([], container); //reset hint list            
         }
 
     catch {
@@ -111,7 +103,6 @@ function keyboardListHandler (e, lastcount, inputOrigin , container){
     
   // Check for up/down key presses
     
-    console.log(e);
   switch(e.key){
 
     // Up arrow  
@@ -210,14 +201,57 @@ let mainCounter = 0;
 
 citiesContainer.addEventListener("keydown", (e) => {
     mainCounter = keyboardListHandler(e, mainCounter, searchBar, citiesContainer)
-    console.log(mainCounter);
 });
+
 
 // COMPARE SEARCH BAR EVENTS //
 
-/*
+// event delegator for elements dinamically created
 
-compareSearchBar.addEventListener("keyup", e => {});
+compareBox.addEventListener("keyup", (e) => {
+    if (e.target && e.target.matches("#comparesearch")){
+    const compareSearchBar = document.querySelector("#comparesearch");
+    const compareCitiesContainer = document.querySelector("#comparelist"); // comparing searchbar 
+    filterDataOnInputs(e, compareSearchBar, citiesList, compareCitiesContainer)
+    }
+});
 
-*/
-      
+// click event on the searchbar buttons (search and clear)
+
+compareBox.addEventListener('click', (e)=> {
+    if (e.target && e.target.matches(".fas.fa-xmark")){
+    const compareSearchBar = document.querySelector("#comparesearch");
+    const compareCitiesContainer = document.querySelector("#comparelist"); // comparing searchbar 
+    eraseInput(e, compareSearchBar, compareCitiesContainer)
+    }
+
+    else if (e.target && e.target.matches(".fas.fa-search")) {
+        try {  
+            const compareSearchBar = document.querySelector("#comparesearch");
+            const compareCitiesContainer = document.querySelector("#comparelist"); // comparing searchbar 
+            let cityUrlSearch2 = citiesList[citiesList.findIndex( obj => 
+                {return obj.name.toLowerCase() === compareSearchBar.value.toLowerCase()})].href;
+                const cityToUser2 = new City (cityUrlSearch2);
+                cityToUser2.getCityData().then( () => {
+                
+                
+
+                });
+                compareSearchBar.value = ''; //reset input in the searchBar
+                displaySearchCities ([], compareCitiesContainer); //reset hint list            
+            }
+    
+        catch {
+            compareSearchBar.setCustomValidity('Please insert a valid city name');
+            compareSearchBar.reportValidity()
+        } 
+        
+
+    }
+
+
+});
+
+
+//const startCompareBtn = document.querySelector(".compare-icon"); // search button - compare searchBar
+//const eraseCompareBtn = document.querySelector(".xc-icon"); // erase button - compare searchBar

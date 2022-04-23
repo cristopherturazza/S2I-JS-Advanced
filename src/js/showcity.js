@@ -19,7 +19,6 @@ export class ShowCity {
         this.cityBannerPhoto = document.querySelector(".banner-container");
         this.cityName = document.querySelector(".city-name");
         this.citySummary = document.querySelector(".city-summary");
-        this.cityChart = document.querySelector(".city-scores-chart");
         this.cityMayor = document.querySelector(".city-mayor");
         this.cityTotalScore = document.querySelector(".total-score-container");
         this.cityChartFrame = document.querySelector(".city-scores-chart")
@@ -49,9 +48,9 @@ export class ShowCity {
         this.cityTotalScore.innerHTML = `<span class="city-total-score">${score}</span><span class="score-label">BCTL Score</span>`
     }
 
-    setCityChart (cityname1, scores1, cityname2, scores2){
-        const chartHtml = `<div class="chart-head"><h1 class="chart-title">Rating for categories</h1><span id="compare-label">Compare with:</span>
-        <div class="compare-box"></div></div><canvas id="cityChart"></canvas>`;
+    setCityChart (cityname1, scores1){
+        const chartHtml = `<h1 class="chart-title">Rating for categories</h1>
+        <div class="compare-box"></div><canvas id="cityChart"></canvas>`;
         this.cityChartFrame.innerHTML = chartHtml;
         const ctx = document.querySelector("#cityChart");
         const catNames = scores1.map( x => x.name);
@@ -82,11 +81,12 @@ export class ShowCity {
                 }
             }
         });
-
+        this.mainChart = mainChart;
+        
         // add search bar for compare option
 
         const searchCompareBox = document.querySelector(".compare-box");
-        const compareHTML= `<input type="search" id="comparesearch" placeholder="Another city...">
+        const compareHTML= `<span id="compare-label">Compare with:</span><input type="search" id="comparesearch" placeholder="Another city...">
         <div class="xc-icon"><i class="fas fa-xmark"></i></div>
         <div class="compare-icon"><i class="fas fa-search"></i></div>
         <div class="comp-city-container">
