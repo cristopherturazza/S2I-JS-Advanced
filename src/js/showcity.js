@@ -82,7 +82,7 @@ export class ShowCity {
             }
         });
         this.mainChart = mainChart;
-        
+
         // add search bar for compare option
 
         const searchCompareBox = document.querySelector(".compare-box");
@@ -92,5 +92,21 @@ export class ShowCity {
         <div class="comp-city-container">
             <ul id="comparelist"></ul>`;
         searchCompareBox.innerHTML = compareHTML;
+    }
+
+    addCityToChart (name, scores){
+       
+        const data = this.mainChart.config.data;
+        const compareCatScores = scores.map( x => x.score_out_of_10.toFixed());
+        console.log(data);
+        const newDataset = {
+        label: `Scores for ${name}`,
+        data: compareCatScores,
+        backgroundColor: 'rgba(50,50,50, 0.2)',
+        borderColor: 'rgba(50,50,50, 1)',
+        borderWidth: 1,
+        }
+      data.datasets.push(newDataset);
+      this.mainChart.update();
     }
 }

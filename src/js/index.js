@@ -233,9 +233,7 @@ compareBox.addEventListener('click', (e)=> {
                 {return obj.name.toLowerCase() === compareSearchBar.value.toLowerCase()})].href;
                 const cityToUser2 = new City (cityUrlSearch2);
                 cityToUser2.getCityData().then( () => {
-                
-                
-
+                    mainCity.addCityToChart (cityToUser2.cityName, cityToUser2.cityCatScores);                
                 });
                 compareSearchBar.value = ''; //reset input in the searchBar
                 displaySearchCities ([], compareCitiesContainer); //reset hint list            
