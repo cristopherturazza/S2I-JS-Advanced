@@ -1,4 +1,6 @@
-import '../css/style.css';
+import '../css/mobile.css';
+import '../css/desktop.css';
+
 import axios from 'axios';
 import './city.js'
 import { City } from './city.js';
@@ -22,11 +24,11 @@ const compareBox = document.querySelector(".city-scores-chart"); // chart contan
 //Download the list of all cities available in the Teleport API - autoexecuted
 
 (async function downloadCities () {
-    await axios.get(`https://api.teleport.org/api/urban_areas/`)
-      .then (response => {
-          citiesList = _get(response, "data._links.ua:item", "Download Error")})
-      .catch ((error) => alert(error))       
-  })();
+    try{
+    const download = await axios.get(`https://api.teleport.org/api/urban_areas/`);
+    citiesList = await _get(download, "data._links.ua:item", "Download Error");
+    } 
+    catch {(error) => alert(error)}})()   
 
 //Show hints in a autocomplete box
 
@@ -70,8 +72,6 @@ function filterDataOnInputs (e, input, data, container) {
 function eraseInput (e, input, container){
     displaySearchCities ([], container);
     input.value = ''}
-
-
 
 function searchAndShowMainCity (data, input, container){
     try {  
@@ -173,7 +173,7 @@ eraseSearchBtn.addEventListener('click', (e)=> {
 // Start search and show the city datas with click on the search ICON
 
 startSearchBtn.addEventListener('click', ()=> {
-    searchAndShowMainCity (citiesList, searchBar, citiesContainer)
+    searchAndShowMainCity (citiesList, searchBar, citiesContainer)    
         });
 
 // Start search and show the city datas with ENTER key
@@ -319,6 +319,4 @@ compareBox.addEventListener("keydown", (e) => {
     const compareCitiesContainer = document.querySelector("#comparelist"); // hints container
     compareCounter = keyboardListHandler(e, compareCounter, compareSearchBar, compareCitiesContainer, 46);
     }
-    console.log(compareCounter); 
-
 });

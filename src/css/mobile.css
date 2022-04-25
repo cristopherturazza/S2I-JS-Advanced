@@ -8,6 +8,12 @@
   padding: 0;
 }
 
+/* clears the 'X' from Chrome */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration { display: none; }
+
 html {
     scroll-behavior: smooth;
     overflow-x: hidden;
@@ -42,6 +48,8 @@ body {
     z-index: 1;
 }
 
+/* black overlay for emphatize the tile */
+
 .banner-container::before {
     content: "";
     position: absolute;
@@ -56,11 +64,13 @@ body {
     display: flex;
     z-index: 1;
     text-align: center;
-    line-height: 8rem;
-    font-size: 8rem;
+    margin: 2rem;
+    line-height: 6rem;
+    font-size: 3.5rem;
     font-weight: bolder;
     color: rgb(230, 230, 230);
     text-shadow: 0px 0px 50px rgba(0,0,0, 0.5);
+    z-index: 1;
 }
 
 .search-wrapper {
@@ -75,11 +85,11 @@ body {
 
 .search-box {
     display: flex;
-    width: 25rem;
+    width: 20rem;
     justify-content: center;
     flex-direction: column;
     position: absolute;
-    top: -4vh;
+    top: -3vh;
     box-shadow: 0px 5px 5px rgba(0,0,0, 0.2);
     background-color: rgba(230,230,230);
     border-radius: 10px;
@@ -87,7 +97,7 @@ body {
 
 .search-icon {
     position: absolute;
-    top: 0.8rem;
+    top: 0.4rem;
     right: 1rem;
     font-size: 1.2rem;
     padding: 0.5rem;
@@ -98,7 +108,7 @@ body {
 
 .x-icon {
     position: absolute;
-    top: 0.6rem;
+    top: 0.2rem;
     right: 3rem;
     font-size: 1.2rem;
     padding: 0.7rem;
@@ -116,7 +126,7 @@ body {
 }
 .search-box input {
     border: none;
-    font-size: 1.5rem;
+    font-size: 1rem;
     padding: 1rem;
     border-radius: 10px;
     box-shadow: 0px 1px 5px rgba(0,0,0, 0.10);
@@ -155,8 +165,8 @@ body {
 
 .citydata-wrapper {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
     z-index: 0;
     margin-top: 1rem;
 }
@@ -166,7 +176,7 @@ body {
     flex-direction: column;
     flex-wrap: wrap;
     background-color: rgb(230, 230, 230);
-    width: 50vw;
+    width: 100vw;
     padding: 3rem 3rem;
     min-height: 50vh;
     position: relative;
@@ -191,7 +201,7 @@ body {
 
 .city-summary {
     font-weight: 100;
-    max-width: 35vw;
+    max-width: 80vw;
 }
 
 .city-summary a {
@@ -208,8 +218,9 @@ body {
 
 #skyline-picture {
     position: absolute;
-    bottom: -2vh;
-    width: 40vw;
+    bottom: -2rem;
+    left: -1rem;
+    width: 110vw;
     z-index: 0;
 }
 
@@ -221,7 +232,7 @@ body {
 
 .mayor-score-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
 }
 
@@ -229,15 +240,15 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: 2rem;
+    margin-right: 1rem;
 }
 
 .city-total-score {
     padding: 1rem;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: bold;
     text-align: center;
-    width: 4rem;
+    width: 3rem;
     text-shadow: 1px 1px 5px rgba(0,0,0, 0.3);
     cursor: default;
     background-color: rgb(34, 187, 139);
@@ -246,6 +257,7 @@ body {
     border-radius: 50%;
     color: rgb(230,230,230);
     box-shadow: 0px 5px 5px rgba(0,0,0, 0.2);
+    margin-top: 2rem;
     margin-bottom: 0.5rem;
 }
 
@@ -259,13 +271,24 @@ body {
 .city-scores-chart {
     display: flex;
     flex-direction: column;
-    width: 50vw;
+    align-items: center;
+    width: 100vw;
     min-height: 50vh;
     padding-top: 3rem;
     padding-right: 3rem;
     padding-bottom: 3rem;
+    padding-left: 3rem;
     font-weight: 100;
     position: relative;
+}
+
+.city-scores-chart canvas {
+    margin: 2rem 0;
+
+}
+
+.city-scores-chart p {
+    margin: 2rem 0;
 }
 
 #now {
@@ -289,13 +312,16 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    width: 45vw;
-    font-size: 3.5rem;
+    width: 100vw;
+    font-size: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
     padding-top: 2rem;
     padding-bottom: 0.5rem;
     color: black;
     position: absolute;
     bottom: 0;
+    left: 0;
 }
 
 .prechart-title {
@@ -304,7 +330,7 @@ body {
     margin-bottom: 1rem;
     text-decoration: underline;
     text-decoration-color: rgb(34, 187, 139);
-    text-decoration-thickness: 5px ;
+    text-decoration-thickness: 5px;
 }
 
 .chart-head {
@@ -317,13 +343,13 @@ body {
 .compare-box {
     display: flex;
     width: 16rem;
-    position: absolute;
-    right: 3rem;
+    position: relative;
     justify-content: center;
     flex-direction: column;
     box-shadow: 0px 5px 5px rgba(0,0,0, 0.2);
     background-color: rgba(230,230,230);
     border-radius: 10px;
+    margin-top: 2rem;
 }
 
 #compare-label {
@@ -402,11 +428,104 @@ body {
 
 footer {
     display: flex;
+    flex-grow: 1;
     justify-content: center;
     align-items: center;
     font-weight: 100;
-    min-height: 8vh;
+    min-height: 10vh;
     width: 100vw;
     background-color: rgb(34, 187, 139);
     z-index: 2;
 }
+
+@media only screen and (min-width: 700px) {
+
+    .main-title {
+    
+        font-size: 4.5rem;
+    }    
+    
+    .search-box {
+        width: 22rem;
+    }
+    
+    .search-box input {
+        font-size: 1.2rem;
+    }
+    
+    .showcity-container {
+        padding-bottom: 2rem;
+    }
+    
+    #skyline-picture {
+        position: absolute;
+        bottom: -4rem;
+    }
+    
+    .city-scores-chart {
+        padding-top: 5rem;
+    }
+    
+    .city-scores-chart canvas {
+        margin: 4rem;
+        max-height: 400px;
+    
+    }
+
+    .search-icon {
+        top: 0.5rem;
+        right: 1rem;
+    }
+    
+    .x-icon {
+        top: 0.3rem;
+        right: 3rem;
+    }
+    
+    }
+
+@media only screen and (min-width: 1000px) {
+
+        .main-title {
+        
+            font-size: 5.5rem;
+        }    
+        
+        .search-box {
+            width: 23rem;
+        }
+        
+        .search-box input {
+            font-size: 1.3rem;
+        }
+        
+        .showcity-container {
+            padding-bottom: 3rem;
+        }
+        
+        #skyline-picture {
+            position: absolute;
+            bottom: -5rem;
+        }
+        
+        .city-scores-chart {
+            padding-top: 6rem;
+        }
+        
+        .city-scores-chart canvas {
+            margin: 4rem;
+            max-height: 400px;
+        
+        }
+
+        .search-icon {
+            top: 0.6rem;
+            right: 1rem;
+        }
+        
+        .x-icon {
+            top: 0.4rem;
+            right: 3rem;
+        }
+        
+        }

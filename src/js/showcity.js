@@ -25,7 +25,8 @@ export class ShowCity {
     }
 
     setMainTitle (data){
-        this.cityMainTitle.textContent = data
+
+        this.cityMainTitle.textContent = data;
     }
 
     setCityBanner (href){
@@ -50,7 +51,7 @@ export class ShowCity {
 
     setCityChart (cityname1, scores1){
         const chartHtml = `<h1 class="chart-title">Rating for categories</h1>
-        <div class="compare-box"></div><canvas id="cityChart"></canvas>`;
+       <canvas id="cityChart" width="400" height="400"></canvas><div class="compare-box"></div>`;
         this.cityChartFrame.innerHTML = chartHtml;
         const ctx = document.querySelector("#cityChart");
         const catNames = scores1.map( x => x.name);
