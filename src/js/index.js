@@ -11,7 +11,7 @@ const _get = require('lodash/get');
 const mainCity = new ShowCity(); // main city on the page
 let citiesList = []; // list of all avalaible cities
 
-// Selectors
+// Selectors for the main city
 
 const citiesContainer = document.querySelector("#citylist"); // hints container
 const searchBar = document.querySelector("#citysearch"); // main searchBar
@@ -97,7 +97,7 @@ function searchAndShowMainCity (data, input, container){
     }
 }
 
-function keyboardListHandler (e, lastcount, inputOrigin , container){
+function keyboardListHandler (e, lastcount, inputOrigin , container, scrolldim){
     e.preventDefault();
     let counter = lastcount;
     
@@ -113,7 +113,7 @@ function keyboardListHandler (e, lastcount, inputOrigin , container){
             container.children[counter].classList.remove("highlight");
             counter--;
             container.children[counter].classList.add("highlight");
-            container.parentElement.scrollTop -= 66; 
+            container.parentElement.scrollTop -= scrolldim; 
         }
         else if (counter > 0 && counter >= container.children.length-2){ 
             container.children[counter].classList.remove("highlight");
@@ -140,7 +140,7 @@ function keyboardListHandler (e, lastcount, inputOrigin , container){
         else if (counter >= 2 && counter < container.children.length-1) {
         container.children[counter].classList.remove("highlight");
         counter++;
-        container.parentElement.scrollTop += 66;
+        container.parentElement.scrollTop += scrolldim;
         container.children[counter].classList.add("highlight");
         };
       break;
@@ -200,7 +200,7 @@ searchBar.addEventListener('keydown', (e)=> {
 let mainCounter = 0;
 
 citiesContainer.addEventListener("keydown", (e) => {
-    mainCounter = keyboardListHandler(e, mainCounter, searchBar, citiesContainer)
+    mainCounter = keyboardListHandler(e, mainCounter, searchBar, citiesContainer, 66)
 });
 
 
@@ -216,27 +216,45 @@ compareBox.addEventListener("keyup", (e) => {
     }
 });
 
-// click event on the searchbar buttons (search and clear)
+// click event on the searchbar buttons (add and remove)
 
 compareBox.addEventListener('click', (e)=> {
+
+    // remove second city from the chart, click event
+
     if (e.target && e.target.matches(".fas.fa-xmark")){
-    const compareSearchBar = document.querySelector("#comparesearch");
-    const compareCitiesContainer = document.querySelector("#comparelist"); // comparing searchbar 
-    eraseInput(e, compareSearchBar, compareCitiesContainer)
+    const compareSearchBar = document.querySelector("#comparesearch"); // comparing searchbar 
+    const removeCityChartBtn = document.querySelector(".xc-icon"); // remove city btn
+    const addCityChartBtn = document.querySelector(".compare-icon"); // add city btn
+    mainCity.removeCityToChart();
+    compareSearchBar.value = '';
+    compareSearchBar.readOnly = false;
+    compareSearchBar.style.backgroundColor = 'rgb(230, 230, 230)';
+    compareSearchBar.classList.add('fcs');
+    removeCityChartBtn.style.display = 'none';            
+    addCityChartBtn.style.display = 'block';  
     }
 
-    else if (e.target && e.target.matches(".fas.fa-search")) {
+    // add second city to chart for comparing, click event
+
+    else if (e.target && e.target.matches(".fas.fa-plus")) {
         try {  
-            const compareSearchBar = document.querySelector("#comparesearch");
-            const compareCitiesContainer = document.querySelector("#comparelist"); // comparing searchbar 
+            const compareSearchBar = document.querySelector("#comparesearch"); // comparing searchbar 
+            const compareCitiesContainer = document.querySelector("#comparelist"); // hints container
+            const removeCityChartBtn = document.querySelector(".xc-icon"); // remove city btn
+            const addCityChartBtn = document.querySelector(".compare-icon"); // add city btn
             let cityUrlSearch2 = citiesList[citiesList.findIndex( obj => 
                 {return obj.name.toLowerCase() === compareSearchBar.value.toLowerCase()})].href;
                 const cityToUser2 = new City (cityUrlSearch2);
                 cityToUser2.getCityData().then( () => {
                     mainCity.addCityToChart (cityToUser2.cityName, cityToUser2.cityCatScores);                
                 });
-                compareSearchBar.value = ''; //reset input in the searchBar
-                displaySearchCities ([], compareCitiesContainer); //reset hint list            
+                displaySearchCities ([], compareCitiesContainer); //reset hint list
+                compareSearchBar.readOnly = true;
+                compareSearchBar.style.backgroundColor = 'rgba(100, 100, 100, 0.5)';
+                compareSearchBar.classList.remove('fcs');
+                removeCityChartBtn.style.display = 'block';            
+                addCityChartBtn.style.display = 'none';            
             }
     
         catch {
@@ -250,6 +268,57 @@ compareBox.addEventListener('click', (e)=> {
 
 });
 
+// Add second city to the chart with the enter key
 
-//const startCompareBtn = document.querySelector(".compare-icon"); // search button - compare searchBar
-//const eraseCompareBtn = document.querySelector(".xc-icon"); // erase button - compare searchBar
+compareBox.addEventListener('keydown', (e)=> { 
+
+    if (e.target && e.target.matches("#comparesearch")){
+
+        const compareSearchBar = document.querySelector("#comparesearch"); // comparing searchbar 
+        const compareCitiesContainer = document.querySelector("#comparelist"); // hints container
+        const removeCityChartBtn = document.querySelector(".xc-icon"); // remove city btn
+        const addCityChartBtn = document.querySelector(".compare-icon"); // add city btn
+
+    if (e.key === 'Enter') {
+        const compareSearchBar = document.querySelector("#comparesearch"); // comparing searchbar 
+            const compareCitiesContainer = document.querySelector("#comparelist"); // hints container
+            const removeCityChartBtn = document.querySelector(".xc-icon"); // remove city btn
+            const addCityChartBtn = document.querySelector(".compare-icon"); // add city btn
+            let cityUrlSearch2 = citiesList[citiesList.findIndex( obj => 
+                {return obj.name.toLowerCase() === compareSearchBar.value.toLowerCase()})].href;
+                const cityToUser2 = new City (cityUrlSearch2);
+                cityToUser2.getCityData().then( () => {
+                    mainCity.addCityToChart (cityToUser2.cityName, cityToUser2.cityCatScores);                
+                });
+                displaySearchCities ([], compareCitiesContainer); //reset hint list
+                compareSearchBar.readOnly = true;
+                compareSearchBar.style.backgroundColor = 'rgba(100, 100, 100, 0.5)';
+                compareSearchBar.classList.remove('fcs');
+                removeCityChartBtn.style.display = 'block';            
+                addCityChartBtn.style.display = 'none';      
+        }
+
+    //if key down, focus on his hints container
+        
+    else if (e.key === 'Down' || e.key === 'ArrowDown'){
+        try{
+            e.preventDefault();
+            compareCitiesContainer.children[0].classList.add("highlight");
+            compareCitiesContainer.children[0].focus();
+        }
+        catch {return false}
+    }
+}
+});
+
+let compareCounter = 0;
+
+compareBox.addEventListener("keydown", (e) => {
+    if (e.target && e.target.matches("li")){
+    const compareSearchBar = document.querySelector("#comparesearch"); // comparing searchbar 
+    const compareCitiesContainer = document.querySelector("#comparelist"); // hints container
+    compareCounter = keyboardListHandler(e, compareCounter, compareSearchBar, compareCitiesContainer, 46);
+    }
+    console.log(compareCounter); 
+
+});

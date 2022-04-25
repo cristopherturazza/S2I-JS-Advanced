@@ -86,9 +86,9 @@ export class ShowCity {
         // add search bar for compare option
 
         const searchCompareBox = document.querySelector(".compare-box");
-        const compareHTML= `<span id="compare-label">Compare with:</span><input type="search" id="comparesearch" placeholder="Another city...">
+        const compareHTML= `<span id="compare-label">Compare with:</span><input type="search" id="comparesearch" class="fcs" placeholder="Another city...">
         <div class="xc-icon"><i class="fas fa-xmark"></i></div>
-        <div class="compare-icon"><i class="fas fa-search"></i></div>
+        <div class="compare-icon"><i class="fas fa-plus"></i></div>
         <div class="comp-city-container">
             <ul id="comparelist"></ul>`;
         searchCompareBox.innerHTML = compareHTML;
@@ -98,15 +98,20 @@ export class ShowCity {
        
         const data = this.mainChart.config.data;
         const compareCatScores = scores.map( x => x.score_out_of_10.toFixed());
-        console.log(data);
         const newDataset = {
         label: `Scores for ${name}`,
         data: compareCatScores,
-        backgroundColor: 'rgba(50,50,50, 0.2)',
-        borderColor: 'rgba(50,50,50, 1)',
+        backgroundColor: 'rgba(100,100,100, 0.2)',
+        borderColor: 'rgba(100,100,100, 1)',
         borderWidth: 1,
         }
       data.datasets.push(newDataset);
       this.mainChart.update();
+    }
+
+    removeCityToChart (){
+        const data = this.mainChart.config.data;
+        data.datasets.pop();
+        this.mainChart.update();
     }
 }
