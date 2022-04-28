@@ -87,7 +87,7 @@ export class ShowCity {
         // add search bar for compare option
 
         const searchCompareBox = document.querySelector(".compare-box");
-        const compareHTML= `<span id="compare-label">Compare with:</span><input type="search" id="comparesearch" class="fcs" placeholder="Another city...">
+        const compareHTML= `<span id="compare-label">Compare with:</span><input type="search" id="comparesearch" placeholder="Another city...">
         <div class="xc-icon"><i class="fas fa-xmark"></i></div>
         <div class="compare-icon"><i class="fas fa-plus"></i></div>
         <div class="comp-city-container">

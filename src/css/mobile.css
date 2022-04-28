@@ -134,8 +134,7 @@ body {
 }
 
 .search-box input:focus {
-    outline-style: double; 
-    outline-color: rgb(34, 187, 139);
+    outline: none;
 }
 
 .hints-container {
@@ -360,25 +359,29 @@ body {
 
 .compare-icon {
     position: absolute;
-    top: 0.1rem;
+    top: -0.05rem;
     right: 0.5rem;
-    font-size: 0.8rem;
+    font-size: 1.1rem;
     padding: 0.5rem;
     border-radius: 50%;
     cursor: pointer;
-    transition: color ease-in 0.3s;
+    transition: color ease-in 0.3s;  
 }
 
 .xc-icon {
     display: none;
     position: absolute;
-    top: -0.1rem;
+    top: -0.2rem;
     right: 0.5rem;
-    font-size: 0.8rem;
+    font-size: 1.1rem;
     padding: 0.7rem;
     border-radius: 50%;
     cursor: pointer;
     transition: color ease-in 0.3s;
+}
+
+.compare-icon i, .xc-icon i {
+    pointer-events: none;
 }
 
 .compare-icon:hover{
@@ -399,10 +402,6 @@ body {
     background-color: rgb(230, 230, 230);
 }
 
-.fcs:focus {
-    outline-style: double; 
-    outline-color: rgb(34, 187, 139);
-}
 
 .comp-city-container {
     max-height: 140px;
@@ -432,7 +431,7 @@ footer {
     justify-content: center;
     align-items: center;
     font-weight: 100;
-    min-height: 10vh;
+    min-height: 8vh;
     width: 100vw;
     background-color: rgb(34, 187, 139);
     z-index: 2;

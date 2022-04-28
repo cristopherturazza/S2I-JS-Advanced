@@ -219,8 +219,8 @@ compareBox.addEventListener("keyup", (e) => {
 compareBox.addEventListener('click', (e)=> {
 
     // remove second city from the chart, click event
-
-    if (e.target && e.target.matches(".fas.fa-xmark")){
+    
+    if (e.target && e.target.matches(".xc-icon")){
     const compareSearchBar = document.querySelector("#comparesearch"); // comparing searchbar 
     const removeCityChartBtn = document.querySelector(".xc-icon"); // remove city btn
     const addCityChartBtn = document.querySelector(".compare-icon"); // add city btn
@@ -228,19 +228,19 @@ compareBox.addEventListener('click', (e)=> {
     compareSearchBar.value = '';
     compareSearchBar.readOnly = false;
     compareSearchBar.style.backgroundColor = 'rgb(230, 230, 230)';
-    compareSearchBar.classList.add('fcs');
     removeCityChartBtn.style.display = 'none';            
     addCityChartBtn.style.display = 'block';  
     }
 
     // add second city to chart for comparing, click event
 
-    else if (e.target && e.target.matches(".fas.fa-plus")) {
+    else if (e.target && e.target.matches(".compare-icon")) {
         try {  
             const compareSearchBar = document.querySelector("#comparesearch"); // comparing searchbar 
             const compareCitiesContainer = document.querySelector("#comparelist"); // hints container
             const removeCityChartBtn = document.querySelector(".xc-icon"); // remove city btn
             const addCityChartBtn = document.querySelector(".compare-icon"); // add city btn
+            if (!compareSearchBar.value){return false};
             let cityUrlSearch2 = citiesList[citiesList.findIndex( obj => 
                 {return obj.name.toLowerCase() === compareSearchBar.value.toLowerCase()})].href;
                 const cityToUser2 = new City (cityUrlSearch2);
@@ -250,7 +250,6 @@ compareBox.addEventListener('click', (e)=> {
                 displaySearchCities ([], compareCitiesContainer); //reset hint list
                 compareSearchBar.readOnly = true;
                 compareSearchBar.style.backgroundColor = 'rgba(100, 100, 100, 0.5)';
-                compareSearchBar.classList.remove('fcs');
                 removeCityChartBtn.style.display = 'block';            
                 addCityChartBtn.style.display = 'none';            
             }
@@ -291,7 +290,6 @@ compareBox.addEventListener('keydown', (e)=> {
                 displaySearchCities ([], compareCitiesContainer); //reset hint list
                 compareSearchBar.readOnly = true;
                 compareSearchBar.style.backgroundColor = 'rgba(100, 100, 100, 0.5)';
-                compareSearchBar.classList.remove('fcs');
                 removeCityChartBtn.style.display = 'block';            
                 addCityChartBtn.style.display = 'none';      
         }
