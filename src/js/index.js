@@ -2,9 +2,7 @@ import '../css/mobile.css';
 import '../css/desktop.css';
 
 import axios from 'axios';
-import './city.js'
 import { City } from './city.js';
-import './showcity.js'
 import { ShowCity } from './showcity.js';
 const _get = require('lodash/get');
 
