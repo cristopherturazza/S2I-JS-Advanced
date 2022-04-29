@@ -29,7 +29,7 @@ If you want to compare the scores with those of another city, you can select one
 ## :floppy_disk: Installation
 First of all, you need Node.js installed.
 If you don't have it, you can download it here:
-[Node.js](https://nodejs.org/it/download/)
+[Node.js](https://nodejs.org/it/download/)<br>
 After the installation, you're ready to go.
 
 ### 1 - Clone the repository
@@ -45,7 +45,7 @@ Check out for index.html in the /dist folder.
 
 ## :zap:  Try it!
 Elsewhere, you can simply try it here:
-[Best Cities To Live](https://simplelikecounter.netlify.app/)
+[Best Cities To Live](https://bestcitiestolive.netlify.app/)
 ## :page_with_curl:  License
 [MIT](https://choosealicense.com/licenses/mit/)
 
