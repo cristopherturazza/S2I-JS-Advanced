@@ -1,3 +1,5 @@
+# ALERT: Not working: Teleport APIs actually unavalaibles 
+
 # Best Cities To Live :house_with_garden:
 With this simple page, you can search for a city, in a database that includes the best cities in the world, to evaluate its characteristics and choose your next place where you are going to live.
 
